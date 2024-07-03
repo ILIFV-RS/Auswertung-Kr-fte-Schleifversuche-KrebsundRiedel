@@ -18,6 +18,7 @@ script:  https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.js
 # Kraftverlauf
 
 **Laden einer Textdatei mit den Messdaten der Kraftmessung:**
+
 Nach der Auswahl einer Textdatei wird automatisch das Diagramm erstellt.
 
 <input type="file" onchange="getFileContent(this.files)">
