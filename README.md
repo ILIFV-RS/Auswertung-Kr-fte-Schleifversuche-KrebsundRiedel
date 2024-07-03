@@ -15,7 +15,7 @@ script:  https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.js
 -->
 
 
-# Diagramm 2
+# Kraftverlauf
 
 Laden einer Textdatei mit den Messdaten der Kraftmessung:
 
