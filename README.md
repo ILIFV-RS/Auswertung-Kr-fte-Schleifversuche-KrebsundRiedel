@@ -15,9 +15,9 @@ script:  https://cdnjs.cloudflare.com/ajax/libs/echarts/4.2.1/echarts-en.js
 -->
 
 
-## Grafische Aufbereitung der Daten der Kraftmessung in einem Diagramm
+## Kraftmessung Grundlagenversuche Flachschleifen
 
-**Laden einer Textdatei mit den Messdaten der Kraftmessung!**
+**Laden der Textdatei mit den Messdaten der Kraftmessung!**
 
 Nach der Auswahl einer Textdatei wird automatisch das Diagramm erstellt.
 
