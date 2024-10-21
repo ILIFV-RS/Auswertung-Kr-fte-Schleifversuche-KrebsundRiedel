@@ -259,7 +259,7 @@ function plotData(t, y1, y2) {
   for(let i=0; i<t.length; i++) {
     fy1.push([t[i], y1[i]])
     fy2.push([t[i], y2[i]])
-  }
+  },
 
   let chart = echarts.init(main);
 
