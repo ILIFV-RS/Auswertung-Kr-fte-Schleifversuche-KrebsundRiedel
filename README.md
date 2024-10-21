@@ -229,18 +229,20 @@ window.getFileContent = (files) => {
 
     const split = data.match(/\d+(?:\.\d+)?|\-\d+(?:\.\d+)?/g);
     const T = []
-    const Fn = []
-    const Ft = []
+    const Fn_Spindel = []
+    const Fn_Tisch = []
+    const Ft_Spindel = []
+    const Ft_Tisch = []
 
-
-    for(let i=0; i<split.length; i=i+3) {
+    for(let i=0; i<split.length; i=i+5) {
       T.push(parseFloat(split[i]));
-      Fn.push(parseFloat(split[i+1]));
-      Ft.push(parseFloat(split[i+2]));
-
+      Fn_Spindel.push(parseFloat(split[i+1]));
+      Fn_Tisch.push(parseFloat(split[i+2]));
+      Ft_Spindel.push(parseFloat(split[i+3]));
+      Ft_Tisch.push(parseFloat(split[i+4]));
     }
 
-    plotData(T, Fn, Ft);
+    plotData(T, Fn_Spindel, Fn_Tisch, Ft_Spindel, Ft_Tisch);
 
     // Jetzt kannst du dinge mit dem text machen
   	document.getElementById("content").innerText = textValue;
@@ -248,18 +250,22 @@ window.getFileContent = (files) => {
   reader.readAsArrayBuffer(files[0]);
 }
 
-function plotData(t, y1, y2) {
+function plotData(t, y1, y2, y3, y4) {
 
   let main = document.getElementById('main');
   main.hidden = false;
 
   let fy1 = []
   let fy2 = []
+  let fy3 = []
+  let fy4 = []
 
   for(let i=0; i<t.length; i++) {
     fy1.push([t[i], y1[i]])
     fy2.push([t[i], y2[i]])
-  },
+    fy3.push([t[i], y3[i]])
+    fy4.push([t[i], y4[i]])
+  }
 
   let chart = echarts.init(main);
 
@@ -285,7 +291,7 @@ function plotData(t, y1, y2) {
     },
 
     legend: {
-        data:['Normalkraft Fn', 'Tangentialkraft Ft'],
+        data:['Fn_Spindel', 'Fn_Tisch', 'Ft_Spindel', 'Ft_Tisch'],
         top: 80,
         itemGap: 30,
         itemWidth: 50,
@@ -337,7 +343,7 @@ function plotData(t, y1, y2) {
 
 
     series : [{
-      name:'Normalkraft Fn',
+      name:'Fn_Spindel',
       type:'line',
       data: fy1,
       symbol: 'none',
@@ -346,14 +352,32 @@ function plotData(t, y1, y2) {
       },
     },
     {
-      name:'Tangentialkraft Ft',
+      name:'Fn_Tisch',
       type:'line',
       data: fy2,
       symbol: 'none',
       lineStyle: {
         width: 3,
       },
-    }],
+    },
+    {
+      name:'Ft_Spindel',
+      type:'line',
+      data: fy3,
+      symbol: 'none',
+      lineStyle: {
+        width: 3,
+      },
+    },
+    {
+      name:'Ft_Tisch',
+      type:'line',
+      data: fy4,
+      symbol: 'none',
+      lineStyle: {
+        width: 3,
+      },
+    }]
   };
 
   // use configuration item and data specified to show chart
@@ -365,4 +389,3 @@ function plotData(t, y1, y2) {
 
 
 <div id="main" style="position:relative; width:100%; height:100%;" hidden="true"></div>
-
