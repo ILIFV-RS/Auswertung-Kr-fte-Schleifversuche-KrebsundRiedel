@@ -200,7 +200,7 @@ function plotData(t, y1, y2, y3, y4) {
 </script>
 
 
-<div id="main" style="position:relative; width:150%; height:100%;" hidden="true"></div>
+<div id="main" style="position:relative; width:100%; height:80%;" hidden="true"></div>
 
 
 ## Kraftmessung Grundlagenversuche Rundschleifen
@@ -362,4 +362,4 @@ function plotData(t, y1, y2) {
 </script>
 
 
-<div id="main" style="position:relative; width:150%; height:100%;" hidden="true"></div>
+<div id="main" style="position:relative; width:100%; height:80%;" hidden="true"></div>
