@@ -201,3 +201,169 @@ function plotData(t, y1, y2, y3, y4) {
 
 
 <div id="main" style="position:relative; width:100%; height:100%;" hidden="true"></div>
+
+
+## Kraftmessung Grundlagenversuche Rundschleifen
+
+**Laden der Textdatei mit den Messdaten der Kraftmessung!**
+
+Nach der Auswahl einer Textdatei wird automatisch das Diagramm erstellt.
+
+<input type="file" onchange="getFileContent(this.files)">
+
+<script>
+window.getFileContent = (files) => {
+	if (files.length !== 1) {
+  	// Sicherstellen, dass nur eine Datei hochgeladen wurde.
+    return;
+  }
+  const reader = new FileReader();
+  reader.addEventListener("loadend", () => {
+  	// in reader.result stehen die bytes
+    // also müssen wir es noch in text umwandeln.
+
+    const decoder = new TextDecoder();
+    const textValue = decoder.decode(reader.result);
+
+    const data = textValue.replace(/,/g, ".");
+
+    const split = data.match(/\d+(?:\.\d+)?|\-\d+(?:\.\d+)?/g);
+    const T = []
+    const Fn = []
+    const Ft = []
+
+
+    for(let i=0; i<split.length; i=i+3) {
+      T.push(parseFloat(split[i]));
+      Fn.push(parseFloat(split[i+1]));
+      Ft.push(parseFloat(split[i+2]));
+
+    }
+
+    plotData(T, Fn, Ft);
+
+    // Jetzt kannst du dinge mit dem text machen
+  	document.getElementById("content").innerText = textValue;
+  });
+  reader.readAsArrayBuffer(files[0]);
+}
+
+function plotData(t, y1, y2) {
+
+  let main = document.getElementById('main');
+  main.hidden = false;
+
+  let fy1 = []
+  let fy2 = []
+
+  for(let i=0; i<t.length; i++) {
+    fy1.push([t[i], y1[i]])
+    fy2.push([t[i], y2[i]])
+  }
+
+  let chart = echarts.init(main);
+
+  let option = {
+
+    title : {
+      display: false,
+      text: "",
+      subtext: '',
+      itemGap: 10,
+      textAlign: 'auto',
+      textVerticalAlign: 'middle',
+      textStyle: {
+        fontSize: 30,
+      },
+      subtextStyle: {
+        fontSize: 20,
+      },
+    },
+
+    grid: {
+      top: 120,
+    },
+
+    legend: {
+        data:['Normalkraft Fn', 'Tangentialkraft Ft'],
+        top: 80,
+        itemGap: 30,
+        itemWidth: 50,
+        itemHeight: 20,
+        textStyle: {
+          fontSize: 24,
+        },
+    },
+
+    toolbox: {
+      show : true,
+      feature : {
+        mark : {show: true},
+        dataZoom : {show: true},
+        dataView : {show: true, readOnly: false},
+        restore : {show: true},
+        saveAsImage : {
+          show: true,
+          pixelRatio: 4,
+        },
+      },
+    },
+
+    xAxis: [{
+      type: 'value',
+      name: 'Zeit in s',
+      nameLocation: 'middle',
+      nameGap: 40,
+      axisLabel: {
+        fontSize: 20,
+      },
+      nameTextStyle: {
+        fontSize: 20,
+      },
+    }],
+
+    yAxis: [{
+      type : 'value',
+      name: 'Kraft in N',
+      nameLocation: 'middle',
+      nameGap: 60,
+      axisLabel: {
+        fontSize: 20,
+      },
+      nameTextStyle: {
+        fontSize: 20,
+      },
+    }],
+
+
+    series : [{
+      name:'Normalkraft Fn',
+      type:'line',
+      data: fy1,
+      symbol: 'none',
+      lineStyle: {
+        width: 3,
+      },
+    },
+    {
+      name:'Tangentialkraft Ft',
+      type:'line',
+      data: fy2,
+      symbol: 'none',
+      lineStyle: {
+        width: 3,
+      },
+    },
+  }]
+  };
+
+  // use configuration item and data specified to show chart
+  chart.setOption(option);
+
+  window.addEventListener('resize', chart.resize);
+}
+</script>
+
+
+<div id="main" style="position:relative; width:100%; height:100%;" hidden="true"></div>
+
