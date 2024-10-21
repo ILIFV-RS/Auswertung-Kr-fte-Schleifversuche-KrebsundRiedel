@@ -353,8 +353,7 @@ function plotData(t, y1, y2) {
       lineStyle: {
         width: 3,
       },
-    },
-  }],
+    }],
   };
 
   // use configuration item and data specified to show chart
