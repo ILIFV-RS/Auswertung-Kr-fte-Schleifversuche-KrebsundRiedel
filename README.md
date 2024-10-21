@@ -229,20 +229,16 @@ window.getFileContent = (files) => {
 
     const split = data.match(/\d+(?:\.\d+)?|\-\d+(?:\.\d+)?/g);
     const T = []
-    const Fn_Spindel = []
-    const Fn_Tisch = []
-    const Ft_Spindel = []
-    const Ft_Tisch = []
+    const Fn = []
+    const Ft = []
 
-    for(let i=0; i<split.length; i=i+5) {
+    for(let i=0; i<split.length; i=i+3) {
       T.push(parseFloat(split[i]));
-      Fn_Spindel.push(parseFloat(split[i+1]));
-      Fn_Tisch.push(parseFloat(split[i+2]));
-      Ft_Spindel.push(parseFloat(split[i+3]));
-      Ft_Tisch.push(parseFloat(split[i+4]));
+      Fn.push(parseFloat(split[i+1]));
+      Ft.push(parseFloat(split[i+2]));
     }
 
-    plotData(T, Fn_Spindel, Fn_Tisch, Ft_Spindel, Ft_Tisch);
+    plotData(T, Fn, Ft);
 
     // Jetzt kannst du dinge mit dem text machen
   	document.getElementById("content").innerText = textValue;
@@ -250,21 +246,17 @@ window.getFileContent = (files) => {
   reader.readAsArrayBuffer(files[0]);
 }
 
-function plotData(t, y1, y2, y3, y4) {
+function plotData(t, y1, y2) {
 
   let main = document.getElementById('main');
   main.hidden = false;
 
   let fy1 = []
   let fy2 = []
-  let fy3 = []
-  let fy4 = []
 
   for(let i=0; i<t.length; i++) {
     fy1.push([t[i], y1[i]])
     fy2.push([t[i], y2[i]])
-    fy3.push([t[i], y3[i]])
-    fy4.push([t[i], y4[i]])
   }
 
   let chart = echarts.init(main);
@@ -291,7 +283,7 @@ function plotData(t, y1, y2, y3, y4) {
     },
 
     legend: {
-        data:['Fn_Spindel', 'Fn_Tisch', 'Ft_Spindel', 'Ft_Tisch'],
+        data:['Normalkraft Fn', 'Tangentialkraft Ft'],
         top: 80,
         itemGap: 30,
         itemWidth: 50,
@@ -343,7 +335,7 @@ function plotData(t, y1, y2, y3, y4) {
 
 
     series : [{
-      name:'Fn_Spindel',
+      name:'Normalkraft Fn',
       type:'line',
       data: fy1,
       symbol: 'none',
@@ -352,32 +344,14 @@ function plotData(t, y1, y2, y3, y4) {
       },
     },
     {
-      name:'Fn_Tisch',
+      name:'Tangentialkraft Ft',
       type:'line',
       data: fy2,
       symbol: 'none',
       lineStyle: {
         width: 3,
       },
-    },
-    {
-      name:'Ft_Spindel',
-      type:'line',
-      data: fy3,
-      symbol: 'none',
-      lineStyle: {
-        width: 3,
-      },
-    },
-    {
-      name:'Ft_Tisch',
-      type:'line',
-      data: fy4,
-      symbol: 'none',
-      lineStyle: {
-        width: 3,
-      },
-    }]
+    }],
   };
 
   // use configuration item and data specified to show chart
